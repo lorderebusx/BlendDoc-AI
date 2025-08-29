@@ -29,20 +29,21 @@ def setupChatbot():
     return collection, model, embeddingModel
 
 def getAnswer(collection, model, embeddingModel, userQuery):
-    # --- MANUALLY EMBED THE QUERY ---
     queryEmbedding = embeddingModel.embed_query(userQuery)
 
-    # Query using the embedding vector instead of the text
+    # Ask ChromaDB to include "metadatas" in the results
     results = collection.query(
         query_embeddings=[queryEmbedding],
-        n_results=5
+        n_results=5,
+        include=["documents", "metadatas"]
     )
     
     contextDocuments = results['documents'][0]
+    contextMetadatas = results['metadatas'][0]
     context = "\n\n---\n\n".join(contextDocuments)
 
     promptTemplate = f"""
-    You are BlendDoc, a friendly and helpful assistant who is an expert in Blender.
+    You are BlenderBot, a friendly and helpful assistant who is an expert in Blender.
     Your goal is to answer the user's question in a clear, conversational way.
     
     Base your answer ONLY on the following context from the official Blender documentation.
@@ -50,8 +51,7 @@ def getAnswer(collection, model, embeddingModel, userQuery):
     
     Rephrase the information in your own words to make it easy to understand.
     Do not include raw artifacts from the documentation like '¶'.
-    If the context includes a menu path or shortcut, format it clearly using **bold text**.
-
+    If the context includes a menu path or shortcut, format it clearly using bold text.
 
     CONTEXT:
     {context}
@@ -62,7 +62,13 @@ def getAnswer(collection, model, embeddingModel, userQuery):
     ANSWER:
     """
     response = model.generate_content(promptTemplate)
-    return response.text
+    
+    # Process the metadata to get unique source files
+    sourceFiles = [meta['source'] for meta in contextMetadatas]
+    uniqueSources = list(set(sourceFiles))
+    
+    # Note that it now returns TWO values: the answer and the sources
+    return response.text, uniqueSources
 
 st.set_page_config(page_title="BlenderBot", page_icon="🤖")
 st.title("BlenderBot 🤖")
@@ -74,6 +80,12 @@ if collection and model:
     userQuery = st.text_input("Your question:", key="query_input")
     if userQuery:
         with st.spinner("Searching the docs and formulating an answer..."):
-            answer = getAnswer(collection, model, embeddingModel, userQuery)
+            answer, sources = getAnswer(collection, model, embeddingModel, userQuery)
             st.markdown("### Answer")
             st.markdown(answer)
+            
+            # Display the sources
+            st.markdown("---")
+            st.markdown("#### Sources:")
+            for source in sources:
+                st.markdown(f"`{source}`")
