@@ -13,7 +13,7 @@ def buildDatabase():
         print("Error: GOOGLE_API_KEY not found in .env file.")
         return
 
-    manualRootFolder = "E:/BlendDoc-AI/blender_manual" # <-- CONFIRM THIS PATH
+    manualRootFolder = "E:/BlendDoc-AI/blender_manual_v450_en" # <-- CONFIRM THIS PATH
     dbPath = "blender_db"
     
     print("Initializing models and database client...")
