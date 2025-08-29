@@ -23,7 +23,7 @@ def setupChatbot():
     # We DO NOT pass the embedding function here either.
     collection = client.get_collection(name="blender_docs")
 
-    model = genai.GenerativeModel('gemini-1.5-pro-latest')
+    model = genai.GenerativeModel('gemini-2.0-flash')
     embeddingModel = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
     
     return collection, model, embeddingModel
@@ -42,11 +42,16 @@ def getAnswer(collection, model, embeddingModel, userQuery):
     context = "\n\n---\n\n".join(contextDocuments)
 
     promptTemplate = f"""
-    You are a helpful assistant who is an expert in Blender.
-    Answer the user's question based ONLY on the following context from the 
-    official Blender documentation.
-    If the context does not contain the answer, state that you cannot answer.
-    Do not invent information.
+    You are BlendDoc, a friendly and helpful assistant who is an expert in Blender.
+    Your goal is to answer the user's question in a clear, conversational way.
+    
+    Base your answer ONLY on the following context from the official Blender documentation.
+    Do not use any information outside of this context.
+    
+    Rephrase the information in your own words to make it easy to understand.
+    Do not include raw artifacts from the documentation like '¶'.
+    If the context includes a menu path or shortcut, format it clearly using **bold text**.
+
 
     CONTEXT:
     {context}
