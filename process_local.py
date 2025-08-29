@@ -41,6 +41,8 @@ def processLocalFiles(rootFolder, outputFile):
                     else:
                         print(f"  -> WARNING: Could not find content in {filename}")
                         warningCount += 1
+                
+                #Test.
 
                 except Exception as e:
                     print(f"  -> ERROR processing file {filename}: {e}")
