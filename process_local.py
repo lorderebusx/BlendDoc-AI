@@ -1,4 +1,5 @@
 import os
+import json
 from bs4 import BeautifulSoup
 
 def processLocalFiles(rootFolder, outputFile):
@@ -9,6 +10,8 @@ def processLocalFiles(rootFolder, outputFile):
     with open(outputFile, 'w', encoding='utf-8') as f:
         f.write("")
 
+    
+    processedData = []
     fileCount = 0
     warningCount = 0
     for dirpath, _, filenames in os.walk(rootFolder):
@@ -34,6 +37,8 @@ def processLocalFiles(rootFolder, outputFile):
                     if mainContent:
                         print(f"Processing: {filename}")
                         text = mainContent.get_text(separator=' ', strip=True)
+
+                        processedData.append({"text": text, "source": filename})
                         
                         with open(outputFile, 'a', encoding='utf-8') as out:
                             out.write(text + '\n\n')
@@ -46,6 +51,9 @@ def processLocalFiles(rootFolder, outputFile):
 
                 except Exception as e:
                     print(f"  -> ERROR processing file {filename}: {e}")
+
+    with open(outputFile, 'w', encoding='utf-8') as f:
+        json.dump(processedData, f, indent=2)
 
     print("\n--- Processing complete ---")
     print(f"Successfully processed {fileCount} files.")
