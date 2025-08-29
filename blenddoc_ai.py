@@ -71,21 +71,39 @@ def getAnswer(collection, model, embeddingModel, userQuery):
     return response.text, uniqueSources
 
 st.set_page_config(page_title="BlenderBot", page_icon="🤖")
-st.title("BlenderBot 🤖")
-st.write("Ask any question about Blender, and I'll find the answer in the official documentation.")
 
-collection, model, embeddingModel = setupChatbot()
+if 'exit_app' not in st.session_state:
+    st.session_state.exit_app = False
 
-if collection and model:
-    userQuery = st.text_input("Your question:", key="query_input")
-    if userQuery:
-        with st.spinner("Searching the docs and formulating an answer..."):
-            answer, sources = getAnswer(collection, model, embeddingModel, userQuery)
-            st.markdown("### Answer")
-            st.markdown(answer)
-            
-            # Display the sources
-            st.markdown("---")
-            st.markdown("#### Sources:")
-            for source in sources:
-                st.markdown(f"`{source}`")
+with st.sidebar:
+    st.header("Controls")
+    if st.button("Exit BlenderBot"):
+        st.session_state.exit_app = True
+        # Rerun the script to immediately show the exit message
+        st.rerun()
+
+# --- NEW: Check if the exit button has been clicked ---
+if st.session_state.exit_app:
+    st.title("Goodbye! 👋")
+    st.success("Thank you for using BlenderBot.")
+    st.info("You can now safely close this browser tab.")
+    st.warning("To completely stop the server, press **Ctrl+C** in your terminal window.")
+else:
+    # --- This is your original UI code ---
+    st.title("BlenderBot 🤖")
+    st.write("Ask any question about Blender, and I'll find the answer in the official documentation.")
+
+    collection, model, embeddingModel = setupChatbot()
+
+    if collection and model:
+        userQuery = st.text_input("Your question:", key="query_input")
+        if userQuery:
+            with st.spinner("Searching the docs and formulating an answer..."):
+                answer, sources = getAnswer(collection, model, embeddingModel, userQuery)
+                st.markdown("### Answer")
+                st.markdown(answer)
+                
+                st.markdown("---")
+                st.markdown("#### Sources:")
+                for source in sources:
+                    st.markdown(f"`{source}`")
