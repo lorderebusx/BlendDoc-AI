@@ -45,7 +45,7 @@ This project works with a local copy of the Blender manual.
 
 - Unzip the folder and place it inside the project directory.
 
-- Update the manualRootFolder variable in build_database.py to point to this folder (e.g., "E:/BlendDoc-AI/blender_manual_v450_en").
+- Update the manualRootFolder variable in `build_database.py` to point to this folder (e.g., "E:/BlendDoc-AI/blender_manual_v450_en").
 
 **3. Install Dependencies**
 
