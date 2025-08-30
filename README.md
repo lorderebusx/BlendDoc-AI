@@ -45,7 +45,7 @@ This project works with a local copy of the Blender manual.
 
 - Unzip the folder and place it inside the project directory.
 
-- Update the manualRootFolder variable in `build_database.py` to point to this folder (e.g., "E:/BlendDoc-AI/blender_manual_v450_en").
+- Update the manualRootFolder variable in `build_database.py` to point to this folder (e.g., `"E:/BlendDoc-AI/blender_manual_v450_en"`).
 
 **3. Install Dependencies**
 
@@ -63,7 +63,7 @@ Install all the necessary Python libraries.
 
 **5. Build the Database**
 
-Run the all-in-one script to process the documentation and create the vector database. This will create a blender_db folder in your project directory.
+Run the all-in-one script to process the documentation and create the vector database. This will create a `blender_db` folder in your project directory.
 
 `python build_database.py`
 
