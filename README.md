@@ -32,40 +32,43 @@ Follow these steps to run BlendDoc on your local machine.
 - Python 3.8+
 - A Google AI API Key
 
-1. Clone the Repository
+**1. Clone the Repository**
 ```bash
 git clone <your-repo-url>
 cd <your-repo-directory>
 ```
-2. Download the Blender Manual
+**2. Download the Blender Manual**
+
 This project works with a local copy of the Blender manual.
 
-Download the complete manual as an HTML package from the official Blender website.
+- Download the complete manual as an HTML package from the [official Blender website](https://docs.blender.org/manual/en/latest/).
 
-Unzip the folder and place it inside the project directory.
+- Unzip the folder and place it inside the project directory.
 
-Update the manualRootFolder variable in build_database.py to point to this folder (e.g., "E:/BlendDoc-AI/blender_manual_v450_en").
+- Update the manualRootFolder variable in build_database.py to point to this folder (e.g., "E:/BlendDoc-AI/blender_manual_v450_en").
 
-3. Install Dependencies
+**3. Install Dependencies**
 Install all the necessary Python libraries.
 
-pip install streamlit chromadb langchain-google-genai python-dotenv beautifulsoup4 tqdm
+`pip install streamlit chromadb langchain-google-genai python-dotenv beautifulsoup4 tqdm`
 
-4. Set Up Your API Key
-Create a file named .env in the root of the project directory.
+**4. Set Up Your API Key**
 
-Add your Google AI API key to this file:
+- Create a file named `.env` in the root of the project directory.
 
-GOOGLE_API_KEY="YOUR_API_KEY_HERE"
+- Add your Google AI API key to this file:
 
-5. Build the Database
+    `GOOGLE_API_KEY="YOUR_API_KEY_HERE"`
+
+**5. Build the Database**
+
 Run the all-in-one script to process the documentation and create the vector database. This will create a blender_db folder in your project directory.
 
-python build_database.py
+`python build_database.py`
 
-6. Run the Chatbot
+**6. Run the Chatbot**
 Start the Streamlit web application.
 
-streamlit run chatbot.py
+`streamlit run chatbot.py`
 
-Your default web browser should open with the BlenderBot chat interface, ready for you to use! 🐪
+Your default web browser should open with the BlenderBot chat interface, ready for you to use!
