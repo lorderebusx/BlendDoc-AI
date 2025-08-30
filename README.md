@@ -68,6 +68,7 @@ Run the all-in-one script to process the documentation and create the vector dat
 `python build_database.py`
 
 **6. Run the Chatbot**
+
 Start the Streamlit web application.
 
 `streamlit run chatbot.py`
