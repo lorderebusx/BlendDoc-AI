@@ -48,6 +48,7 @@ This project works with a local copy of the Blender manual.
 - Update the manualRootFolder variable in build_database.py to point to this folder (e.g., "E:/BlendDoc-AI/blender_manual_v450_en").
 
 **3. Install Dependencies**
+
 Install all the necessary Python libraries.
 
 `pip install streamlit chromadb langchain-google-genai python-dotenv beautifulsoup4 tqdm`
